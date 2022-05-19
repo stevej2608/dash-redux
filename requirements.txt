@@ -1,0 +1,12 @@
+dash>=2.1.0
+dash-prefix>=0.0.2
+
+# setup.py - exclude
+#
+# Only needed for package development & testing
+
+pytest>=7.1.1
+setuptools==41.0.1
+twine>=3.8.0
+keyrings.alt>=4.1.0
+dash[testing]>=2.1.0
