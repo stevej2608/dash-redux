@@ -4,10 +4,10 @@ Provides Plotly/[Dash] with support for a Redux style [store of truth].
 
     pip install dash-redux
 
-In the *ReduxStore* component, input is derived from any number automatically generated
-surrogate stores. The stores are presented to the application for update via callbacks.
-When a callback completes, the updated surrogate store is copied to a master
-store. This mechanism acts as an data multiplexor feeding Dash UI events
+In the *ReduxStore* component, **state** is derived from any number automatically generated
+surrogate stores. The surrogate stores are presented to the application for update via callbacks.
+When a callback completes, the updated surrogate is copied to a master
+store. This mechanism acts as a data multiplexor feeding application state changes from Dash UI events
 into an immutable **single source of truth** that can then be used to trigger
 additional activity in the UI.
 
