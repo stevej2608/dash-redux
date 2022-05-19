@@ -36,7 +36,7 @@ def new_activity(button_clicks, input, state):
 ```
 from .todo_model import TODO_MODEL, ModelActions as action
 
-Redux = ReduxStore(id=page.id('store'), data=TODO_MODEL)
+Redux = ReduxStore(id='store', data=TODO_MODEL)
 
 @Redux.action(button.input.n_clicks, input.state.value)
 def _add(button_clicks, input):
