@@ -82,8 +82,11 @@ class ReduxStore(html.Div):
 
         # MASTER store surrogate merge @callback
 
-        @callback(self.master_store.output.data, self._surrogate_store_match.input.data, prevent_initial_call=True)
-        def update_store(surrogate_state):
+        @callback(self.master_store.output.data,
+                  self._surrogate_store_match.input.data,
+                  self.master_store.input.modified_timestamp, self.master_store.state.data,
+                  prevent_initial_call=True)
+        def update_store(surrogate_state, timestamp, old_state):
 
             # log.info('Updating MASTER state = %s', store_state)
             # for index, state in enumerate(mux_state):
@@ -93,6 +96,9 @@ class ReduxStore(html.Div):
             if index is not None:
                 # log.info('Update using index  = %d', index)
                 return deepcopy(surrogate_state[index])
+
+            if timestamp and old_state:
+                return old_state
 
             return NOUPDATE
 
@@ -283,7 +289,7 @@ class StateWrapper:
         raise AttributeError(f"error: attribute {key} has not been defined.")
 
     def __setattr__(self, key, value):
-        if key is 'state':
+        if key == 'state':
             super(StateWrapper, self).__setattr__(key, value)
         elif key in self.state:
             self.state[key] = value
