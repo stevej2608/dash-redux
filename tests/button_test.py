@@ -38,7 +38,7 @@ def test_buttons(dash_duo):
         return store
 
 
-    @callback(container.output.children, store.store.input.data)
+    @callback(container.output.children, store.input.data)
     def btn2_update(store):
         if store:
             msg = ""

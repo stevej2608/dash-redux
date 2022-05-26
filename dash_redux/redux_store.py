@@ -2,7 +2,7 @@ import sys
 from copy import deepcopy
 from dash import dcc,  no_update as NOUPDATE
 from dash import html, callback, ALL
-from dash_prefix import match,  prefix, trigger_index
+from dash_prefix import match,  prefix, trigger_index, copy_factory
 
 # from logging import log
 
@@ -79,6 +79,8 @@ class ReduxStore(html.Div):
         self._surrogate_stores = {}
 
         super().__init__([self.master_store])
+
+        copy_factory(self.master_store, self)
 
         # MASTER store surrogate merge @callback
 
