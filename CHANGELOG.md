@@ -1,3 +1,6 @@
+## 0.0.3 - May 26th, 2022
+
+
 ## 0.0.2 - May 26th, 2022
 
 - Make the master_store (dcc.Store) ID accessible from the container

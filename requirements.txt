@@ -1,5 +1,5 @@
 dash>=2.1.0
-dash-prefix>=0.0.2
+dash-prefix>=0.0.4
 
 # setup.py - exclude
 #
