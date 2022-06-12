@@ -1,10 +1,11 @@
 import sys
+import logging
 from copy import deepcopy
 from dash import dcc,  no_update as NOUPDATE
 from dash import html, callback, ALL
 from dash_prefix import match,  prefix, trigger_index, copy_factory
 
-# from logging import log
+log = logging.getLogger('redux_store')
 
 def default_action_execute(cmd, state, *_args, **_kwargs):
     """Built in action execute dispatcher"""
@@ -75,7 +76,7 @@ class ReduxStore(html.Div):
 
         self.master_store = dcc.Store(id=id, storage_type=self.storage_type, **kwargs)
 
-        self._surrogate_store_match = match({'type': self.pfx('store'), 'idx': ALL})
+        self._surrogate_store_match = match({'type': self.pfx('ip'), 'idx': ALL})
         self._surrogate_stores = {}
 
         super().__init__([self.master_store])
@@ -86,24 +87,17 @@ class ReduxStore(html.Div):
 
         @callback(self.master_store.output.data,
                   self._surrogate_store_match.input.data,
-                  self.master_store.input.modified_timestamp, self.master_store.state.data,
                   prevent_initial_call=True)
-        def update_store(surrogate_state, timestamp, old_state):
-
-            # log.info('Updating MASTER state = %s', store_state)
-            # for index, state in enumerate(mux_state):
-            #     log.info('mux_state %02d  %s', index, state)
+        def update_store(surrogate_state):
 
             index = trigger_index()
             if index is not None:
-                # log.info('Update using index  = %d', index)
-                return deepcopy(surrogate_state[index])
-
-            if timestamp and old_state:
-                return old_state
+                log.info('Update using surrogate index  = %d', index)
+                master = deepcopy(surrogate_state[index])
+                log.info('Write master state = %s', master)
+                return master
 
             return NOUPDATE
-
 
     def update(self, *_args, **_kwargs):
         """
@@ -297,4 +291,3 @@ class StateWrapper:
             self.state[key] = value
         else :
             raise AttributeError(f"error: attribute {key} has not been defined.")
-
