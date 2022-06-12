@@ -1,5 +1,7 @@
 ## 0.0.3 - May 26th, 2022
 
+Remove master store timestamp reference in surrogate merge callback as it triggers an an
+unnecessary event.
 
 ## 0.0.2 - May 26th, 2022
 
