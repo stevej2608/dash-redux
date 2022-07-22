@@ -130,7 +130,9 @@ class ReduxStore(html.Div):
 
         def wrapper(user_func):
 
-            @callback(surrogate_store.output.data, *_args, self.master_store.state.data, prevent_initial_call=True, **_kwargs)
+            pic = _kwargs.pop('prevent_initial_call', True)
+
+            @callback(surrogate_store.output.data, *_args, self.master_store.state.data, prevent_initial_call=pic, **_kwargs)
             def _proxy(*_args):
 
                 # We need to copy the state of the master store to make sure
@@ -185,7 +187,9 @@ class ReduxStore(html.Div):
 
         def wrapper(user_func):
 
-            @callback(surrogate_store.output.data, *_args, prevent_initial_call=True, **_kwargs)
+            pic = _kwargs.pop('prevent_initial_call', True)
+
+            @callback(surrogate_store.output.data, *_args, prevent_initial_call=pic, **_kwargs)
             def _proxy(*_args):
 
                 # Call the user's @Redux.action() function.
