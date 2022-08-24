@@ -5,6 +5,23 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "1. app.py",
+      "type": "python",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "program": "app.py",
+      "console": "internalConsole",
+      "env": {"PYTHONHASHSEED": "1234"},
+      "internalConsoleOptions": "openOnSessionStart",
+      "justMyCode": false,
+      "serverReadyAction": {
+        "pattern": ".*Visit http://(.*)",
+        "uriFormat": "http://%s",
+        "action": "openExternally"
+      }
+    },
+
+    {
       "name": "3. PyTest (all)",
       "type": "python",
       "request": "launch",

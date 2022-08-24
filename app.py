@@ -1,3 +1,4 @@
+import logging
 import dash
 from dash import Dash, html
 import dash_bootstrap_components as dbc
@@ -31,5 +32,16 @@ def create_app(dash_factory) -> Dash:
 
 
 if __name__ == "__main__":
+
+    logging.basicConfig(format = '%(levelname)s %(module)13s/%(lineno)-5d %(message)s')
+
     app = create_app(create_dash)
+
+    # Turn off werkzeug logging as it's very noisy
+
+    _log = logging.getLogger('werkzeug')
+    _log.setLevel(logging.ERROR)
+
+    log = logging.getLogger('redux_store')
+    log.setLevel(logging.WARN)
     serve_app(app, debug=False)
