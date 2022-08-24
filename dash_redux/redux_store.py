@@ -132,8 +132,15 @@ class ReduxStore(html.Div):
 
             pic = _kwargs.pop('prevent_initial_call', True)
 
+			# We need to get the master store state held by the browser
+
             @callback(surrogate_store.output.data, *_args, self.master_store.state.data, prevent_initial_call=pic, **_kwargs)
             def _proxy(*_args):
+
+                # Call the user's @Redux.update() function. The arguments
+                # passed in are the input & state values defined by
+                # the user together with the current master store state as the
+                # final argument.
 
                 # We need to copy the state of the master store to make sure
                 # it's immutable
@@ -189,12 +196,20 @@ class ReduxStore(html.Div):
 
             pic = _kwargs.pop('prevent_initial_call', True)
 
-            @callback(surrogate_store.output.data, *_args, prevent_initial_call=pic, **_kwargs)
+			# We need to get the master store state held by the browser
+
+            @callback(surrogate_store.output.data, *_args, self.master_store.state.data, prevent_initial_call=pic, **_kwargs)
             def _proxy(*_args):
+
+               # log.info('Surrogate action event id = %s', surrogate_store.id)
+
+                _values = list(_args)
+                _master_state = _values.pop()
 
                 # Call the user's @Redux.action() function.
 
-                result = user_func(*_args)
+                result = user_func(*_values)
+
 
                 # Test for a returned action_function
 
@@ -211,7 +226,7 @@ class ReduxStore(html.Div):
 
                     # Execute the users action function
 
-                    result = self.execute(action, surrogate_store.data, *args)
+                    result = self.execute(action, _master_state, *args)
 
                     # Return the results to the standard Dash callback.
                     # If the surrogate_store has been modified this will
@@ -262,7 +277,7 @@ class ReduxStore(html.Div):
             self._surrogate_stores[id] = store
             self.children.append(store)
 
-        # log.info("number of mux inputs = %d", len(self._mux_stores))
+        # log.info("number of mux inputs = %d", len(self._surrogate_stores))
 
         return self._surrogate_stores[id]
 
