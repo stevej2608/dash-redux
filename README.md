@@ -22,6 +22,8 @@ that can be used by the application in standard Dash callbacks.
 *ReduxStore* also supports an `action_function` execution model that enforces a formal
 separation of the Dash/UI from the model.
 
+*ReduxStore* underlies the state context/provider pattern in [DashSPA](https://github.com/stevej2608/dash-spa).
+
 *Update function:*
 ```
 Redux = ReduxStore(id='store', data = { "todo": []})
